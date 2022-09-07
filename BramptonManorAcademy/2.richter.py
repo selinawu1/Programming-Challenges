@@ -18,8 +18,7 @@ def richterCalculator():
     scale = float(input("\nPlease enter a Richter scale value: "))
     energy = 10 ** (1.5 * scale + 4.8)
     tnt = energy / (4.18 * 10 ** 9)
-    return "Richter value: " + str(scale) + "\nEquivalence in joules: " + str(
-        energy) + "\nEquivalence in tons of TNT: " + str(tnt)
+    return f"Richter value: {scale} \nEquivalence in joules: {energy} \nEquivalence in tons of TNT: {tnt}"
 
 if __name__ == "__main__":
     richterScale()
