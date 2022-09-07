@@ -1,25 +1,25 @@
+
+def rodsIntoMeters(rods):
+    return rods * 5.0292
+
+def rodsIntoMiles(rods):
+    return rods * 5.0292 / 1609.34
+
+def rodsIntoFeet(rods):
+    return rods * 5.0292 / 0.3048
+
+def rodsIntoFurlongs(rods):
+    return rods / 40
+
 def rodConversion():
     rods = float(input("Enter number of rods:"))
 
-    def intoMeters():
-        return rods * 5.0292
+    print(f"You input {rods} rods. \n\nConversions")
+    print(f"Meters: {rodsIntoMeters(rods)}")
+    print(f"Feet: {rodsIntoFeet(rods)}")
+    print(f"Miles: {rodsIntoMiles(rods)}")
+    print(f"Furlongs: {rodsIntoFurlongs(rods)}")
+    print(f"Minutes to walk {rods} rods: {rodsIntoMiles(rods) * 60 / 3.1}")
 
-    def intoMiles():
-        return rods * 5.0292 / 1609.34
-
-    def intoFeet():
-        return rods * 5.0292 / 0.3048
-
-    def intoFurlongs():
-        return rods / 40
-
-    print("You input " + str(rods) + " rods. \n\nConversions")
-    print("Meters: " + str(intoMeters()))
-    print("Feet: " + str(intoFeet()))
-    print("Miles: " + str(intoMiles()))
-    print("Furlongs: " + str(intoFurlongs()))
-    print("Minutes to walk "+ str(rods) + " rods: " + str(intoMiles() * 60 / 3.1))
-
-
-rodConversion()
-
+if __name__ == "__main__":
+    rodConversion()
