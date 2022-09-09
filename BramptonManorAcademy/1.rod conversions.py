@@ -1,4 +1,3 @@
-
 def rodsIntoMeters(rods):
     return rods * 5.0292
 
@@ -12,7 +11,7 @@ def rodsIntoFurlongs(rods):
     return rods / 40
 
 def rodsIntoMinutes(rods):
-    return rods * 60 / 3.1
+    return rodsIntoMiles(rods) * 60 / 3.1
 
 def rodConversion():
     rods = float(input("Enter number of rods:"))
