@@ -1,25 +1,31 @@
-def richterScale():
-    table = {1: [1],
-             2: [5],
-             3: [9.1],
-             4: [9.2],
-             5: [9.5]
-             }
-    for x in range(len(table)):
-        table[x + 1].append(pow(10, (1.5 * float(table[x + 1][0]) + 4.8)))
-        table[x + 1].append(float(table[x + 1][1]) / (4.18 * pow(10, 9)))
+def calcEnergy(scale):
+    return 10 ** (1.5 * scale + 4.8)
 
-    print("{:<25} {:<25} {:<25}".format("Richter", "Joules", "TNT"))
-    for key, value in table.items():
-        richter, joules, tnt = value
-        print("{:<25} {:<25} {:<25}".format(richter, joules, tnt))
+def calcTnt(energy):
+    return energy / (4.184 * (10 ** 9))
 
-def richterCalculator():
-    scale = float(input("\nPlease enter a Richter scale value: "))
-    energy = 10 ** (1.5 * scale + 4.8)
-    tnt = energy / (4.18 * 10 ** 9)
+def richterCalculator(scale):
+    energy = calcEnergy(scale)
+    tnt = calcTnt(energy)
     return f"Richter value: {scale} \nEquivalence in joules: {energy} \nEquivalence in tons of TNT: {tnt}"
 
+def richterScale():
+    table = {0: [1],
+             1: [5],
+             2: [9.1],
+             3: [9.2],
+             4: [9.5]
+             }
+    for x in range(len(table)):
+        table[x].append(calcEnergy(table[x][0]))
+        table[x].append(calcTnt(table[x][1]))
+
+    print(f"{'Richter':<25}{'Joules':<25}{'TNT':<25}")
+    for key, value in table.items():
+        richter, joules, tnt = value
+        print(f"{richter:<25}{joules:<25}{tnt:<25}")
+  
 if __name__ == "__main__":
     richterScale()
-    print(richterCalculator())
+    scale = float(input("\nPlease enter a Richter scale value: "))
+    print(richterCalculator(scale))
