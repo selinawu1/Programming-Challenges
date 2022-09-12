@@ -1,0 +1,19 @@
+def char_position():
+    char = input("Enter character: ")
+    if ord(char.lower()) > 96 and ord(char.lower()) < 124:
+        position = ord(char.lower()) - 96
+        if position == 1 or position == 21:
+            e = "st"
+        elif position == 2 or position == 22:
+            e = "nd"
+        elif position == 3 or position == 23:
+            e = "rd"
+        else:
+            e = "th"
+
+        return f"\nThe numerical position of {char} is {position}{e} in the alphabet."
+    else:
+        return "\nNot a character in the alphabet."
+
+
+print(char_position())
