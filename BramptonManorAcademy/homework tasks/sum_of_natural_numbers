@@ -1,0 +1,10 @@
+def natural_numbers_sum(n):
+    total = 0
+    for x in range(1,n+1):
+        total += x
+    return total
+
+def natural_numbers_formula(n):
+    return int((1 + n) * n/2)
+
+print(natural_numbers_formula(50))
