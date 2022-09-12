@@ -15,5 +15,5 @@ def char_position():
     else:
         return "\nNot a character in the alphabet."
 
-
-print(char_position())
+if __name__ == "__main__":
+    print(char_position())
