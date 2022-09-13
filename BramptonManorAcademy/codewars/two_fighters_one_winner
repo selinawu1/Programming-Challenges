@@ -1,0 +1,22 @@
+def declare_winner(fighter1, fighter2, first_attacker):
+    health1 = fighter1.health
+    health2 = fighter2.health
+    winner = 0
+    
+    if first_attacker == fighter1.name:
+        health2 -= fighter1.damage_per_attack
+        
+    while winner == 0:
+        health1 -= fighter2.damage_per_attack
+        if health1 <= 0:
+            winner = fighter2.name
+        elif health2 <= 0:
+            winner = fighter1.name
+        else:
+            health2 -= fighter1.damage_per_attack
+            if health1 <= 0:
+                winner = fighter2.name
+            elif health2 <= 0:
+                winner = fighter1.name
+        
+    return winner
