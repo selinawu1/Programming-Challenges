@@ -1,0 +1,140 @@
+import csv
+from pathlib import Path
+
+csv_file = Path("Premier 16-17.csv")
+
+
+def check_file_exists(csv_file):
+    return csv_file.is_file()
+
+
+def read_csv(csv_file):
+    csv_contents = []
+    if check_file_exists(csv_file):
+        with open(csv_file) as csvfile:
+            reader = csv.reader(csvfile, delimiter=",")
+            next(reader)
+            for row in reader:
+                csv_contents.append(row)
+    return csv_contents
+
+
+def process_results(rows):
+    dictionary = {}
+    for row in rows:
+        home, away, home_goals, away_goals, winner = row[1], row[2], row[
+            3], row[4], row[5]
+
+        if home not in dictionary:
+            dictionary[home] = [0, 0, 0, 0, 0]
+        if away not in dictionary:
+            dictionary[away] = [0, 0, 0, 0, 0]
+
+        if winner == "D":
+            dictionary[home][1] += 1
+            dictionary[away][1] += 1
+
+            dictionary[home][4] += 1
+            dictionary[away][4] += 1
+
+        elif winner == "A":
+            dictionary[away][0] += 1
+            dictionary[home][2] += 1
+
+            dictionary[away][4] += 3
+
+        elif winner == "H":
+            dictionary[home][0] += 1
+            dictionary[away][2] += 1
+
+            dictionary[home][4] += 3
+
+        dictionary[home][3] = dictionary[home][3] + int(home_goals) - int(
+            away_goals)
+        dictionary[away][3] = dictionary[away][3] + int(away_goals) - int(
+            home_goals)
+
+    return dictionary
+
+
+def mostleast_accurate(rows):
+    accuracy = {}
+    for row in rows:
+        home, away, h_shots_target, h_total_shots, a_shots_target, a_total_shots = row[
+            1], row[2], row[7], row[9], row[8], row[10]
+        if home not in accuracy:
+            accuracy[home] = [0, 0, 0]
+        if away not in accuracy:
+            accuracy[away] = [0, 0, 0]
+
+        accuracy[home][0] += int(h_shots_target)
+        accuracy[away][0] += int(a_shots_target)
+
+        accuracy[home][1] += int(h_total_shots)
+        accuracy[away][1] += int(a_total_shots)
+
+    for key in accuracy:
+        accuracy[home][2] = accuracy[home][0] / accuracy[home][1]
+        accuracy[home][2] = accuracy[away][0] / accuracy[away][1]
+
+    m_accurate = max(accuracy, key=accuracy.get)
+    l_accurate = min(accuracy, key=accuracy.get)
+
+    return [m_accurate, l_accurate]
+
+
+def dirtiest(rows):
+    fouls = [[], []]
+    for row in rows:
+        home, away, h_fouls, a_fouls = row[1], row[2], row[11], row[12]
+        fouls[1].append(int(h_fouls))
+        fouls[1].append(int(a_fouls))
+
+        fouls[0].append(home)
+        fouls[0].append(away)
+
+    dirtiest = fouls[0][fouls[1].index(max(fouls[1]))]
+    cleanest = fouls[0][fouls[1].index(min(fouls[1]))]
+
+    return [dirtiest, cleanest]
+
+
+def card_average(rows):
+    cards = {}
+    for row in rows:
+        referee, h_yellow, a_yellow, h_red, a_red = row[6], int(row[15]), int(
+            row[16]), int(row[17]), int(row[18])
+        if referee not in cards:
+            cards[referee] = [0, 0, 0]
+
+        cards[referee][1] += 1
+
+        cards[referee][0] += (h_yellow + a_yellow)
+        cards[referee][0] += (h_red + a_red) * 2
+
+    for referee in cards:
+        cards[referee][2] = cards[referee][0] / cards[referee][1]
+
+    highest_avg = max(cards, key=cards.get)
+    lowest_avg = min(cards, key=cards.get)
+
+    return [highest_avg, lowest_avg]
+
+
+if __name__ == "__main__":
+    file_contents = read_csv(csv_file)
+    results = process_results(file_contents)
+    print(f"{'Team':<20}{'Wins':<12}{'Draws':<12}{'Losses':<12}{'Goal Difference':<18}{'Total Points':<18}")
+    
+    for key, value in sorted(results.items(),
+                             key=lambda x: x[1][4],
+                             reverse=True):
+        wins, draws, losses, goal_difference, total_points = value
+        print(f"{key:<20}{wins:<12}{draws:<12}{losses:<12}{goal_difference:<18}{total_points:<18}")
+
+    print(f"\nThe most accurate team is {mostleast_accurate(file_contents)[0]}.\n\nThe least accurate team is {mostleast_accurate(file_contents)[1]}.")
+
+    print(f"\nThe dirtiest team is {dirtiest(file_contents)[0]}.\n\nThe cleanest team is {dirtiest(file_contents)[1]}.")
+
+    print(f"\nThe referee with the highest card average is {card_average(file_contents)[0]}.")
+    print(f"\nThe referee with the lowest card average is {card_average(file_contents)[1]}.")
