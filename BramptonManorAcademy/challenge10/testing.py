@@ -1,7 +1,7 @@
 import unittest
 from pathlib import Path
 
-from league_table_10 import *
+from premier_league_table import *
 
 
 class testingLeagueTable(unittest.TestCase):
