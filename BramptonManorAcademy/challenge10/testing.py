@@ -33,10 +33,6 @@ class testingLeagueTable(unittest.TestCase):
         csv_file = Path("one_row.csv")
         self.assertListEqual([["test", '10']], read_csv(csv_file))
 
-    def test_process_results(self):
-        csv_file = Path("test.csv")
-        self.assertEqual(process_results(read_csv(csv_file)).get("Chelsea"), [30, 3, 5, 52, 93])
-
     def test_mostleast_accurate(self):
         csv_file = Path("Premier 16-17.csv")
         self.assertEqual(mostleast_accurate(read_csv(csv_file)), ["Tottenham", "Middlesbrough"])
