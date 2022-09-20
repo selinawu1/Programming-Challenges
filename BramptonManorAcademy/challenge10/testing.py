@@ -1,7 +1,7 @@
 import unittest
 from pathlib import Path
 
-from premier_league_table import *
+from league_table_10 import *
 
 
 class testingLeagueTable(unittest.TestCase):
@@ -34,17 +34,25 @@ class testingLeagueTable(unittest.TestCase):
         self.assertListEqual([["test", '10']], read_csv(csv_file))
 
     def test_mostleast_accurate(self):
-        csv_file = Path("Premier 16-17.csv")
-        self.assertEqual(mostleast_accurate(read_csv(csv_file)), ["Tottenham", "Middlesbrough"])
+        rows = [["13/08/2016", "Burnley", "Swansea", 0, 1,"A", "J Moss", 10, 17, 3, 9, 10, 14, 7, 4, 3, 2, 0, 0],
+                ["13/08/2016", "Crystal Palace", "West Brom", 0, 1, "A", "C Pawson", 14, 13, 4, 3, 12, 15, 3, 6, 2, 2, 0, 0]]
+        self.assertEqual(mostleast_accurate(rows), ["Swansea", "Burnley"])
 
     def test_dirtiest(self):
-        csv_file = Path("Premier 16-17.csv")
-        self.assertEqual(dirtiest(read_csv(csv_file)), ["Crystal Palace", "Burnley"])
+        rows = [["13/08/2016", "Burnley", "Swansea", 0, 1, "A", "J Moss", 10, 17, 3, 9, 10, 14, 7, 4, 3, 2, 0, 0],
+                ["13/08/2016", "Crystal Palace", "West Brom", 0, 1, "A", "C Pawson", 14, 13, 4, 3, 12, 15, 3, 6, 2, 2, 0,
+                 0]]
+        self.assertEqual(dirtiest(rows), ["West Brom", "Burnley"])
 
     def test_card_average(self):
-        csv_file = Path("Premier 16-17.csv")
-        self.assertEqual(card_average(read_csv(csv_file)), ["R Madley", "C Kavanagh"])
-      
+        rows = [["13/08/2016", "Burnley", "Swansea", 0, 1,"A", "J Moss", 10, 17, 3, 9, 10, 14, 7, 4, 3, 2, 0, 0],
+                ["13/08/2016", "Crystal Palace" ,"West Brom", 0, 1, "A", "C Pawson", 14, 13, 4, 3, 12, 15, 3, 6, 2, 2, 0, 0]]
+        self.assertEqual(card_average(rows), ["J Moss", "C Pawson"])
+
+    def test_process_results(self):
+        rows = [["13/08/2016","Burnley","Swansea",0,1,"A","J Moss",10,17,3,9,10,14,7,4,3,2,0,0]]
+        output = {"Burnley": [0, 0, 1, -1, 0], "Swansea":[1, 0, 0, 1, 3]}
+        self.assertEqual(process_results(rows), output)
 
 if __name__ == '__main__':
     unittest.main()
