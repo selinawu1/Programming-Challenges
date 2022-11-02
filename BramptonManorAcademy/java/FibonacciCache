@@ -11,7 +11,7 @@ public class FibonacciCache {
 
     public static void store() {
         if (fib.length > 0){
-            fib[0] = 0L;
+            fib[0] = 1L;
             if (fib.length > 1){
                 fib[1] = 1L;
                 for (int i = 2; i < fib.length; i++){
