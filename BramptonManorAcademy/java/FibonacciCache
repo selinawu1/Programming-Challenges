@@ -27,7 +27,7 @@ public class FibonacciCache {
     }
 
     public static long get(int i) {
-        if (i < fib.length && i > 0){
+        if (i < fib.length && i >= 0){
             return fib[i];
         }
         return -1L;
