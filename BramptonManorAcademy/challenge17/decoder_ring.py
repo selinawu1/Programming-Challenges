@@ -2,23 +2,31 @@ import string
 
 
 def generate_dial(dial, n):
+    m = 0
+    counter = 1
     new_dial = []
-    new_dial.append(dial[n - 1])
-    for _ in range(24):
-        print(n, new_dial)
-        n += n
-        if 0 <= n < 26:
-            new_dial.append(dial[n - 1])
+    for x in range(26):
+        print(m, dial)
+        m += n - counter
+        if 0 <= m < len(dial):
+            new_dial.append(dial[m])
+        elif len(dial) >= n:
+            m -= len(dial)
+            new_dial.append(dial[m])
         else:
-            n -= 26
-            new_dial.append(dial[n-1])
+            m = -1 * (m - len(dial))
+            new_dial.append(dial[m])
+        print(m, new_dial)
+        dial.remove(dial[m])
     return new_dial
 
 
-def encrypt(first_dial, second_dial, word):
+def encrypt(first_dial, second_dial, plaintext):
+    print(first_dial)
     new_word = ""
-    for x in range(len(word) - 1):
-        new_word += second_dial[first_dial.index(word[x])]
+    for x in range(len(plaintext)):
+        print()
+        new_word += second_dial[first_dial.index(plaintext[x])]
     return new_word
 
 
@@ -26,8 +34,8 @@ if __name__ == "__main__":
     first_dial = list(string.ascii_uppercase)
     print(first_dial)
     n = int(input("Enter an integer between 1 and 1000000: "))
-    word = input("Enter a word: ").upper
+    plaintext = str(input("Enter a word: ").upper())
     second_dial = generate_dial(first_dial, n)
 
-    encrypted_word = encrypt(first_dial, second_dial, word)
+    encrypted_word = encrypt(first_dial, second_dial, plaintext)
     print(f"The encrypted word is {encrypted_word}.")
