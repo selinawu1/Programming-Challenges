@@ -1,0 +1,26 @@
+
+def fibonacci():
+    x = 1
+    sequence = [1, 2]
+    while sequence[x] < 1000000:
+        sequence.append(sequence[x] + sequence[x-1])
+        x += 1
+    return sequence
+
+def zeckendorf(n):
+    representation = []
+    series = fibonacci()
+    while n != 0:
+        for x in range(len(series)):
+            if series[x] == n:
+                representation.append(series[x])
+                return representation
+            elif series[x] > n:
+                representation.append(series[x-1])
+                break
+        n -= representation[-1]
+
+
+if __name__ == "__main__":
+    number = int(input("Enter number: "))
+    print(zeckendorf(number))
